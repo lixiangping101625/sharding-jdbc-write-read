@@ -71,4 +71,14 @@
     
     #属性配置
     spring.shardingsphere.props.sql-show=true
+    
+## 效果展示（执行SQL打印）：
+    新增：写操作的时主库
+    2022-03-23 19:46:36.980  INFO 39616 --- [nio-8080-exec-2] ShardingSphere-SQL                       : Logic SQL: INSERT INTO t_order  ( id,title,amount ) VALUES( ?,?,? )
+    2022-03-23 19:46:36.980  INFO 39616 --- [nio-8080-exec-2] ShardingSphere-SQL                       : SQLStatement: MySQLInsertStatement(setAssignment=Optional.empty, onDuplicateKeyColumns=Optional.empty)
+    2022-03-23 19:46:36.980  INFO 39616 --- [nio-8080-exec-2] ShardingSphere-SQL                       : Actual SQL: primary-ds ::: INSERT INTO t_order  ( id,title,amount ) VALUES( ?,?,? ) ::: [22, 测试新增2, 1000]
+    查询：读是从从库
+    2022-03-23 19:46:41.600  INFO 39616 --- [nio-8080-exec-3] ShardingSphere-SQL                       : Logic SQL: SELECT  id,title,amount  FROM t_order  WHERE       (  id = ? )
+    2022-03-23 19:46:41.600  INFO 39616 --- [nio-8080-exec-3] ShardingSphere-SQL                       : SQLStatement: MySQLSelectStatement(table=Optional.empty, limit=Optional.empty, lock=Optional.empty, window=Optional.empty)
+    2022-03-23 19:46:41.601  INFO 39616 --- [nio-8080-exec-3] ShardingSphere-SQL                       : Actual SQL: replica-ds-0 ::: SELECT  id,title,amount  FROM t_order  WHERE       (  id = ? ) ::: [22]                     : Actual SQL: replica-ds-0 ::: SELECT  id,title,amount  FROM t_order  WHERE       (  id = ? ) ::: [22]    
 
